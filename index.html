@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DavidWiFi - Soporte Técnico</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #090e17;
+  --card: rgba(26, 34, 53, 0.7);
+  --border: rgba(255, 255, 255, 0.1);
+  --text: #e6edf7;
+  --muted: #8b96ad;
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --accent: #10b981;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.15), transparent 25%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+.container { max-width: 800px; width: 100%; }
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 0; margin-bottom: 20px;
+}
+.logo-area { display: flex; align-items: center; gap: 12px; }
+.logo-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+}
+h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; }
+h1 span { color: var(--primary); }
+select#langSelect {
+  background: var(--card); color: var(--text); border: 1px solid var(--border);
+  padding: 8px 12px; border-radius: 8px; font-family: inherit; cursor: pointer;
+  outline: none; backdrop-filter: blur(10px);
+}
+.hero {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 30px; text-align: center;
+  backdrop-filter: blur(12px); margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+.hero h2 { font-size: 28px; margin-bottom: 10px; font-weight: 800; }
+.hero p { color: var(--muted); font-size: 15px; margin-bottom: 24px; line-height: 1.6; }
+.qr-container {
+  background: white; padding: 16px; border-radius: 16px;
+  display: inline-block; margin-bottom: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+/* AQUÍ PONES TU IMAGEN DEL QR */
+.qr-container img { 
+  width: 205px; height: 205px; display: block; border-radius: 8px;
+  image-rendering: pixelated;
+  /* Cambia el src en el HTML por el enlace de tu imagen */
+}
+.badge {
+  display: inline-block; padding: 4px 12px; border-radius: 20px;
+  background: rgba(16, 185, 129, 0.15); color: var(--accent);
+  font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; margin-bottom: 16px; border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.section-title { font-size: 18px; font-weight: 600; margin: 30px 0 16px 0; display: flex; align-items: center; gap: 8px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px; backdrop-filter: blur(12px);
+  transition: transform 0.2s, border-color 0.2s;
+}
+.card:hover { transform: translateY(-2px); border-color: var(--primary); }
+.card h3 { font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.card ol { padding-left: 20px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+.card ol li::marker { color: var(--primary); font-weight: bold; }
+.faq-item {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  border-radius: 12px; margin-bottom: 10px; overflow: hidden;
+}
+.faq-q {
+  padding: 16px; cursor: pointer; font-weight: 600; font-size: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.faq-a {
+  padding: 0 16px; max-height: 0; overflow: hidden; 
+  color: var(--muted); font-size: 14px; line-height: 1.6;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.active .faq-a { max-height: 300px; padding: 0 16px 16px 16px; }
+.faq-item.active .faq-q { color: var(--primary); }
+.footer { text-align: center; color: var(--muted); font-size: 13px; padding: 40px 0 20px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo-area">
+      <div class="logo-icon">📶</div>
+      <h1>David<span>WiFi</span></h1>
+    </div>
+    <select id="langSelect"></select>
+  </header>
+
+  <main>
+    <section class="hero">
+      <span class="badge" data-i18n="badge">Red Oficial</span>
+      <h2 data-i18n="title">Bienvenido a DavidWiFi</h2>
+      <p data-i18n="desc">Escanea el código QR para conectarte automáticamente o sigue las instrucciones manuales.</p>
+      
+      <div class="qr-container">
+        <!-- REEMPLAZA EL SRC CON LA IMAGEN QUE SUBISTE O EL ENLACE DE TU QR -->
+        <img id="wifiQR" src="https://api.qrserver.com/v1/create-qr-code/?size=205x205&ecc=H&margin=0&qzone=2&data=WIFI%3AT%3AWPA%3BS%3ADavidWIFI%3BP%3AQER5%25P09XXD%3B%3B" alt="QR de DavidWiFi">
+      </div>
+      <p style="font-size: 13px; color: var(--muted);" data-i18n="qrHint">Apunta con la cámara de tu móvil</p>
+    </section>
+
+    <h2 class="section-title">📱 <span data-i18n="howTo">¿Cómo conectarse?</span></h2>
+    <div class="grid">
+      <div class="card">
+        <h3>🤖 Android</h3>
+        <ol>
+          <li data-i18n="and1">Abre la app de Cámara.</li>
+          <li data-i18n="and2">Apunta al código QR.</li>
+          <li data-i18n="and3">Toca el aviso "Conectar a red".</li>
+          <li data-i18n="and4">¡Listo!</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>🍎 iPhone / iPad</h3>
+        <ol>
+          <li data-i18n="ios1">Abre la app de Cámara.</li>
+          <li data-i18n="ios2">Apunta al código QR.</li>
+          <li data-i18n="ios3">Pulsa "Unirse a la red".</li>
+          <li data-i18n="ios4">¡Listo!</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>💻 Windows / Mac</h3>
+        <ol>
+          <li data-i18n="pc1">Haz clic en el icono de WiFi.</li>
+          <li data-i18n="pc2">Selecciona "DavidWiFi".</li>
+          <li data-i18n="pc3">Introduce la contraseña manualmente.</li>
+          <li data-i18n="pc4">Conéctate.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h2 class="section-title">🛠️ <span data-i18n="trouble">Solución de problemas</span></h2>
+    <div class="faq-item">
+      <div class="faq-q" data-i18n="q1">No me aparece la red DavidWiFi <span>+</span></div>
+      <div class="faq-a" data-i18n="a1">Asegúrate de estar dentro del rango de cobertura. Si estás en el límite, acércate al router. También verifica que el router esté encendido y con las luces correctas.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-i18n="q2">La contraseña es incorrecta <span>+</span></div>
+      <div class="faq-a" data-i18n="a2">Verifica que no haya espacios en blanco al final. Recuerda que las contraseñas distinguen entre mayúsculas y minúsculas. Si usaste el QR, intenta olvidar la red y volver a escanear.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" data-i18n="q3">Conectado, pero sin Internet <span>+</span></div>
+      <div class="faq-a" data-i18n="a3">El router puede estar reiniciándose o el proveedor de Internet puede tener una caída. Desconecta el router de la corriente, espera 30 segundos y vuelve a enchufarlo.</div>
+    </div>
+    <div id="faqExtra"></div>
+  </main>
+
+  <footer class="footer">
+    <p data-i18n="footer">© 2024 DavidWiFi - Soporte Técnico Oficial. Todos los derechos reservados.</p>
+  </footer>
+</div>
+
+<script>
+const I18N = {
+  es: {
+    badge: "Red Oficial", title: "Bienvenido a DavidWiFi", 
+    desc: "Escanea el código QR para conectarte automáticamente o sigue las instrucciones manuales.",
+    qrHint: "Apunta con la cámara de tu móvil",
+    howTo: "¿Cómo conectarse?",
+    and1: "Abre la app de Cámara.", and2: "Apunta al código QR.", and3: "Toca el aviso 'Conectar a red'.", and4: "¡Listo!",
+    ios1: "Abre la app de Cámara.", ios2: "Apunta al código QR.", ios3: "Pulsa 'Unirse a la red'.", ios4: "¡Listo!",
+    pc1: "Haz clic en el icono de WiFi.", pc2: "Selecciona 'DavidWiFi'.", pc3: "Introduce la contraseña manualmente.", pc4: "Conéctate.",
+    trouble: "Solución de problemas",
+    q1: "No me aparece la red DavidWiFi", a1: "Asegúrate de estar dentro del rango de cobertura. Si estás en el límite, acércate al router. También verifica que el router esté encendido y con las luces correctas.",
+    q2: "La contraseña es incorrecta", a2: "Verifica que no haya espacios en blanco al final. Recuerda que las contraseñas distinguen entre mayúsculas y minúsculas. Si usaste el QR, intenta olvidar la red y volver a escanear.",
+    q3: "Conectado, pero sin Internet", a3: "El router puede estar reiniciándose o el proveedor de Internet puede tener una caída. Desconecta el router de la corriente, espera 30 segundos y vuelve a enchufarlo.",
+    footer: "© 2024 DavidWiFi - Soporte Técnico Oficial. Todos los derechos reservados."
+  },
+  en: {
+    badge: "Official Network", title: "Welcome to DavidWiFi", 
+    desc: "Scan the QR code to connect automatically or follow the manual instructions.",
+    qrHint: "Point with your phone camera",
+    howTo: "How to connect?",
+    and1: "Open the Camera app.", and2: "Point at the QR code.", and3: "Tap 'Connect to network'.", and4: "Done!",
+    ios1: "Open the Camera app.", ios2: "Point at the QR code.", ios3: "Tap 'Join Network'.", ios4: "Done!",
+    pc1: "Click the WiFi icon.", pc2: "Select 'DavidWiFi'.", pc3: "Enter password manually.", pc4: "Connect.",
+    trouble: "Troubleshooting",
+    q1: "DavidWiFi network doesn't appear", a1: "Make sure you are within range. If you are at the limit, move closer to the router. Also verify the router is on and lights are correct.",
+    q2: "Incorrect password", a2: "Check for trailing spaces. Remember passwords are case-sensitive. If you used the QR, try forgetting the network and scanning again.",
+    q3: "Connected but no Internet", a3: "The router may be rebooting or your ISP may have an outage. Unplug the router, wait 30 seconds, and plug it back in.",
+    footer: "© 2024 DavidWiFi - Official Technical Support. All rights reserved."
+  },
+  pt: {
+    badge: "Rede Oficial", title: "Bem-vindo ao DavidWiFi", 
+    desc: "Escaneie o código QR para conectar automaticamente ou siga as instruções manuais.",
+    qrHint: "Aponte com a câmera do celular",
+    howTo: "Como conectar?",
+    and1: "Abra o app de Câmera.", and2: "Aponte para o código QR.", and3: "Toque em 'Conectar à rede'.", and4: "Pronto!",
+    ios1: "Abra o app de Câmera.", ios2: "Aponte para o código QR.", ios3: "Toque em 'Entrar na rede'.", ios4: "Pronto!",
+    pc1: "Clique no ícone de WiFi.", pc2: "Selecione 'DavidWiFi'.", pc3: "Digite a senha manualmente.", pc4: "Conecte.",
+    trouble: "Solução de problemas",
+    q1: "A rede DavidWiFi não aparece", a1: "Certifique-se de estar dentro do alcance. Se estiver no limite, aproxime-se do roteador. Verifique também se o roteador está ligado.",
+    q2: "Senha incorreta", a2: "Verifique se há espaços em branco. As senhas diferenciam maiúsculas de minúsculas. Se usou o QR, tente esquecer a rede e escanear novamente.",
+    q3: "Conectado, mas sem Internet", a3: "O roteador pode estar reiniciando ou o provedor pode estar fora do ar. Desconecte o roteador da tomada, aguarde 30 segundos e conecte novamente.",
+    footer: "© 2024 DavidWiFi - Suporte Técnico Oficial. Todos os direitos reservados."
+  }
+};
+
+// Datos del QR (idénticos al QR original): WIFI:T:WPA;S:DavidWIFI;P:QER5%P09XXD;;
+const WIFI = { ssid: "DavidWIFI", pass: "QER5%P09XXD", type: "WPA" };
+function buildQR() {
+  const payload = `WIFI:T:${WIFI.type};S:${WIFI.ssid};P:${WIFI.pass};;`;
+  // encodeURIComponent evita que ; : % rompan la URL de la API
+  document.getElementById("wifiQR").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=205x205&ecc=H&margin=0&qzone=2&data=" +
+    encodeURIComponent(payload);
+}
+
+const EXTRA_FAQ = `¿Cómo me conecto con el código QR?|Abre la cámara, apunta al QR y toca el aviso para unirte a la red. En Android a veces está en Ajustes > WiFi > icono de QR.
+El QR no se escanea, ¿qué hago?|Sube el brillo de la pantalla, acerca o aleja el móvil unos centímetros y limpia la lente de la cámara.
+¿Puedo conectar varios dispositivos a la vez?|Sí. Con muchos conectados a la vez, la velocidad se reparte entre todos.
+¿Por qué mi internet va lento?|Puede haber muchos dispositivos usando la red, distancia al router o interferencias. Acércate y reinicia el router.
+¿Cómo reinicio el router correctamente?|Desenchúfalo, espera 30 segundos y vuelve a conectarlo. Las luces tardan unos minutos en estabilizarse.
+¿Qué significan las luces del router?|Verde o azul fija suele indicar funcionamiento normal. Roja o naranja indica fallo de conexión con el proveedor.
+¿La luz del router está en rojo?|Hay un problema con la señal del proveedor. Revisa los cables, reinicia el router y, si sigue igual, contacta a tu proveedor.
+¿Dónde debo colocar el router?|En un lugar alto, central y despejado, lejos de paredes gruesas, metales y electrodomésticos.
+¿Los microondas afectan al WiFi?|Sí, pueden interferir con la banda de 2.4 GHz mientras funcionan. Usa 5 GHz o aleja el router.
+¿Qué diferencia hay entre 2.4 GHz y 5 GHz?|2.4 GHz llega más lejos pero es más lenta; 5 GHz es más rápida pero con menor alcance.
+¿Cómo sé si mi dispositivo soporta 5 GHz?|Consulta sus especificaciones o comprueba si aparece una red de 5 GHz en tu lista de redes.
+Mi celular se desconecta solo del WiFi|Desactiva el ahorro de batería para el WiFi, olvida la red y vuelve a conectarte.
+Me pide la contraseña aunque ya la guardé|Pudo cambiar la contraseña de la red. Olvida la red y conéctate de nuevo escaneando el QR.
+¿Cómo olvido una red WiFi en Android?|Ve a Ajustes > Redes e internet > WiFi, toca la red y elige "Olvidar".
+¿Cómo olvido una red WiFi en iPhone?|Ajustes > WiFi, toca la "i" junto a la red y elige "Omitir esta red".
+¿Cómo olvido una red WiFi en Windows?|Ajustes > Red e Internet > WiFi > Administrar redes conocidas, selecciona la red y pulsa Olvidar.
+¿Cómo olvido una red WiFi en Mac?|Ajustes del sistema > WiFi > Avanzado, selecciona la red y pulsa el botón de eliminar (−).
+¿Cómo veo la contraseña guardada en mi móvil?|En Android, Ajustes > WiFi > toca la red > Compartir. En iPhone, Ajustes > WiFi > "i" > Contraseña.
+Aparece "Sin acceso a Internet" en mi móvil|Estás conectado al router, pero este no tiene salida a Internet. Reinícialo o consulta a tu proveedor.
+Se queda en "Obteniendo dirección IP"|Olvida la red y reconecta. Si persiste, reinicia el router para que reasigne direcciones.
+¿Qué es la dirección IP y para qué sirve?|Es el identificador de tu dispositivo en la red. El router la asigna automáticamente (DHCP).
+¿Cómo reinicio la conexión WiFi de mi dispositivo?|Activa y desactiva el modo avión, o apaga y enciende el WiFi desde los ajustes.
+¿Reiniciar el dispositivo ayuda?|Sí, resuelve muchos fallos temporales de conexión. Es lo primero que conviene probar.
+Mi laptop no ve la red pero el móvil sí|Actualiza el controlador de la tarjeta WiFi y comprueba que el WiFi esté activado y el modo avión apagado.
+¿Cómo actualizo el controlador WiFi en Windows?|Administrador de dispositivos > Adaptadores de red > clic derecho en tu adaptador > Actualizar controlador.
+¿Mi PC de escritorio puede usar WiFi?|Necesita una tarjeta o un adaptador WiFi USB. Si no lo tiene, usa un cable de red.
+¿Es mejor conectar por cable?|Sí, el cable Ethernet es más estable y rápido. Ideal para PC, consolas y televisores.
+¿Cómo conecto una Smart TV?|En Ajustes > Red de la TV, selecciona la red e introduce la contraseña con el control remoto.
+Mi Smart TV no se conecta|Reinicia la TV, acércala al router o prueba con cable. Revisa que la contraseña esté bien escrita.
+¿Cómo conecto una consola de videojuegos?|Entra en los ajustes de red de la consola, busca la red y escribe la contraseña. Un cable da menor latencia.
+¿Por qué mi consola tiene mucho ping?|Puede haber saturación, distancia al router o interferencias. Prueba con cable o la banda de 5 GHz.
+¿Cómo conecto una impresora al WiFi?|Usa el asistente de red del panel de la impresora o su app y selecciona la red con la contraseña.
+Mi impresora no encuentra la red|Muchas impresoras solo soportan 2.4 GHz. Comprueba la banda y acércala al router.
+¿Cómo conecto una cámara o dispositivo inteligente?|Normalmente se configura desde su app. Muchos solo funcionan en la banda de 2.4 GHz.
+Mis dispositivos inteligentes no se conectan|Verifica que estén en la banda 2.4 GHz y cerca del router durante la configuración.
+¿Puedo usar un repetidor WiFi?|Sí, amplía la cobertura. Colócalo a mitad de camino, donde todavía llegue buena señal.
+¿Qué es un sistema mesh?|Varias unidades que trabajan juntas para cubrir toda la casa con una sola red, sin zonas muertas.
+¿Cómo mejoro la señal en zonas lejanas?|Acerca el router, usa un repetidor o sistema mesh, o conecta un punto de acceso por cable.
+¿Las paredes afectan la señal?|Sí. El concreto, el metal y los espejos la reducen mucho. Menos obstáculos, mejor cobertura.
+¿Los vecinos pueden afectar mi WiFi?|Las redes cercanas en el mismo canal generan interferencia. Cambiar de canal en el router puede ayudar.
+¿Cómo cambio el canal del WiFi?|En el panel del router, en la configuración inalámbrica, elige un canal menos saturado (1, 6 u 11 en 2.4 GHz).
+¿Cómo entro al panel del router?|Escribe en el navegador la dirección de la etiqueta del router (por ejemplo 192.168.1.1) e inicia sesión.
+Olvidé la clave del panel del router|Prueba la de la etiqueta del equipo. Si no funciona, restablece el router con el botón reset.
+¿Qué pasa si restablezco el router de fábrica?|Se borra toda la configuración, incluidos el nombre de red y la contraseña. Tendrás que configurarlo de nuevo.
+¿Cómo cambio la contraseña del WiFi?|Desde el panel del router, en la seguridad inalámbrica. Después tendrás que actualizar el QR.
+¿Cómo cambio el nombre de la red?|En el panel del router, en la configuración inalámbrica (SSID). Los dispositivos deberán reconectarse.
+¿Qué tipo de seguridad debo usar?|WPA2 o WPA3. Evita redes abiertas o con WEP, que son inseguras.
+¿Es seguro compartir la contraseña por QR?|Es cómodo, pero quien escanee el QR obtiene la contraseña. Muéstralo solo a quien deba conectarse.
+¿Cómo sé si alguien usa mi WiFi sin permiso?|Revisa los dispositivos conectados en el panel del router y cambia la contraseña si ves alguno desconocido.
+¿Cómo bloqueo un dispositivo desconocido?|Cambia la contraseña del WiFi o usa el filtrado por dirección MAC en el router.
+¿Qué es una dirección MAC?|Es el identificador único de la tarjeta de red de cada dispositivo. Sirve para reconocerlo o filtrarlo en el router.
+¿Qué es una red de invitados?|Una red separada para visitas, con acceso a Internet pero sin exponer tus dispositivos principales.
+¿Puedo limitar la velocidad de un dispositivo?|Algunos routers ofrecen control de ancho de banda (QoS) para priorizar o limitar dispositivos.
+¿Qué es QoS?|Una función del router que prioriza cierto tráfico, como videollamadas o juegos, sobre otros usos.
+¿Cómo hago una prueba de velocidad?|Usa un servicio como speedtest.net, con un solo dispositivo conectado y cerca del router.
+¿Qué velocidad necesito para videollamadas?|Entre 3 y 10 Mbps por llamada suelen bastar. La estabilidad importa tanto como la velocidad.
+¿Qué velocidad necesito para ver series en HD o 4K?|Alrededor de 5 Mbps para HD y 25 Mbps para 4K por transmisión.
+¿Por qué se corta el video en streaming?|Puede ser baja velocidad, señal débil o saturación. Acércate al router o baja la calidad del video.
+Las videollamadas se congelan|Cierra otras aplicaciones que usen red, acércate al router y evita descargas durante la llamada.
+¿Las descargas grandes afectan a los demás?|Sí, pueden consumir gran parte del ancho de banda. Programa las descargas pesadas para horas de poco uso.
+¿Qué es el ping y la latencia?|Es el tiempo que tarda un dato en ir y volver. Menos es mejor, sobre todo en juegos y videollamadas.
+¿Qué hago si solo falla una página web?|Puede ser un problema de esa web. Prueba otro navegador, borra la caché o intenta desde otra red.
+¿Cómo borro la caché del navegador?|En los ajustes del navegador busca "Borrar datos de navegación" y marca imágenes y archivos en caché.
+Internet funciona en el móvil pero no en la PC|Reinicia el adaptador de red de la PC y revisa que no haya un proxy o una VPN activos.
+¿Una VPN puede causar problemas?|Sí, puede ralentizar o bloquear la conexión. Desactívala para comprobar si es la causa.
+¿Cómo vacío la caché DNS en Windows?|Abre el Símbolo del sistema y ejecuta ipconfig /flushdns.
+¿Qué es el DNS?|El servicio que traduce nombres de sitios web a direcciones IP. Si falla, las páginas no cargan aunque haya conexión.
+¿Cómo cambio el DNS?|En los ajustes de red de tu dispositivo o del router puedes usar servidores como 1.1.1.1 o 8.8.8.8.
+Aparece un error de certificado o "conexión no segura"|Revisa que la fecha y la hora del dispositivo sean correctas y evita páginas o redes que no sean de confianza.
+¿Una fecha incorrecta en mi dispositivo afecta?|Sí, puede causar errores de seguridad y fallos de conexión. Actívala en modo automático.
+¿Cómo actualizo el firmware del router?|Desde el panel del router, en la sección de administración. Mantenlo enchufado durante todo el proceso.
+¿Cada cuánto debo reiniciar el router?|No es obligatorio, pero reiniciarlo de vez en cuando puede resolver lentitud o fallos.
+El router se calienta mucho|Colócalo en un sitio ventilado, lejos del sol y de otros equipos que den calor.
+¿Puedo apagar el router por la noche?|Sí, para ahorrar energía, aunque no es necesario.
+¿Qué hago tras un corte de luz?|Espera unos minutos a que el router arranque. Si no se conecta, desenchúfalo 30 segundos y reinícialo.
+¿Cómo sé si el problema es de mi proveedor?|Si ningún dispositivo tiene Internet y el router muestra fallo, probablemente sea del proveedor.
+¿Qué información doy al soporte del proveedor?|Tu nombre de cliente, el modelo del router, el estado de las luces y los pasos que ya probaste.
+¿Qué cable Ethernet debo elegir?|Para uso doméstico basta con Cat5e o Cat6.
+El cable de red no funciona|Revisa que esté bien conectado en ambos extremos y prueba con otro cable u otro puerto del router.
+¿Cómo uso mi móvil como punto de acceso?|Activa la zona WiFi o "Compartir Internet" en los ajustes del móvil. Consume tus datos móviles.
+¿Puedo compartir la red con un amigo?|Sí, mostrándole el QR. En iPhone y Android también puedes compartir la contraseña desde los ajustes.
+¿Cuántos dispositivos soporta el router?|Depende del modelo; los domésticos suelen soportar entre 20 y 50, aunque el rendimiento baja con cada uno.
+¿Qué es WiFi 6?|Un estándar más moderno que mejora la velocidad y el rendimiento con muchos dispositivos conectados.
+¿Por qué mi WiFi va lento por la noche?|En horas de mayor uso se satura la red del proveedor y hay más dispositivos activos en casa.
+Mi teléfono muestra señal pero no carga nada|Puede ser un fallo de DNS o del router. Reinicia el router y prueba a cambiar el DNS.
+¿Cómo mido la intensidad de la señal?|Con el icono de WiFi o una app analizadora de redes. Cuantas más barras, mejor señal.
+El WiFi funciona y luego se cae|Puede haber interferencia, sobrecalentamiento o fallo del proveedor. Reinicia el router y actualiza su firmware.
+¿El mismo QR sirve para otras redes?|No, el QR solo sirve para esta red. Cada red tiene su propio nombre y contraseña.
+¿Cómo imprimo el código QR?|Haz una captura del QR o imprime esta página, procurando un buen tamaño y contraste.
+¿A quién contacto si nada funciona?|Contacta al administrador de DavidWiFi con los pasos que ya probaste y una descripción del problema.`;
+function renderExtraFAQ() {
+  const box = document.getElementById("faqExtra");
+  EXTRA_FAQ.split("\n").forEach(line => {
+    const [q, a] = line.split("|");
+    const item = document.createElement("div");
+    item.className = "faq-item";
+    const qq = document.createElement("div");
+    qq.className = "faq-q";
+    qq.append(q + " ");
+    const sp = document.createElement("span"); sp.textContent = "+";
+    qq.appendChild(sp);
+    const aa = document.createElement("div");
+    aa.className = "faq-a"; aa.textContent = a;
+    item.append(qq, aa);
+    box.appendChild(item);
+  });
+}
+
+const LANGS = [{c:"es",n:"Español"},{c:"en",n:"English"},{c:"pt",n:"Português"}];
+let currentLang = "es";
+
+function applyLang(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  const dict = I18N[lang];
+  
+  // Actualizar textos
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if (dict[key]) {
+      // Si el elemento contiene un span (como los iconos + o -, lo respetamos)
+      if(el.tagName === 'DIV' && el.classList.contains('faq-q')) {
+         el.innerHTML = dict[key] + " <span>+</span>";
+      } else {
+         el.textContent = dict[key];
+      }
+    }
+  });
+}
+
+function init() {
+  const sel = document.getElementById("langSelect");
+  LANGS.forEach(l => {
+    const o = document.createElement("option");
+    o.value = l.c; o.textContent = l.n;
+    sel.appendChild(o);
+  });
+  
+  const browserLang = navigator.language.slice(0, 2).toLowerCase();
+  currentLang = LANGS.find(l => l.c === browserLang) ? browserLang : "es";
+  sel.value = currentLang;
+  applyLang(currentLang);
+
+  sel.addEventListener("change", (e) => applyLang(e.target.value));
+  buildQR();
+
+  renderExtraFAQ(); // debe ir antes del acordeón
+
+  // Lógica del acordeón (FAQ)
+  document.querySelectorAll(".faq-q").forEach(q => {
+    q.addEventListener("click", () => {
+      const item = q.parentElement;
+      item.classList.toggle("active");
+      const span = q.querySelector("span");
+      if(item.classList.contains("active")) {
+        span.textContent = "-";
+      } else {
+        span.textContent = "+";
+      }
+    });
+  });
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
