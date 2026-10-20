@@ -19,3 +19,18 @@ iZZi
 TotalPlay
 
 Megacable
+
+## Soluciones en Nintendo Switch
+
+Si al intentar conectarte te sale un error aqui te las paso
+
+###  Error 2110-2003 (Fallo de IP)
+1. Ve a **Modificar los ajustes** de `davidWIFI` en tu Switch.
+2. Cambia la Configuración de IP a **Manual** y guarda (no cambies números).
+3. Vuelve a entrar, cámbiala a **Automático**, guarda e intenta conectar.
+
+###  Error 2110-2101 (Fallo de Sincronización/Seguridad)
+1. Selecciona `davidWIFI` en la Switch y dale a **Borrar los ajustes**.
+2. Reinicia por completo la Nintendo Switch (mantén presionado el botón de apagado 3 segundos).
+3. En la PC del Administrador, asegúrate de que el Hotspot esté configurado en seguridad **WPA2** y no WPA3.
+4. Vuelve a vincular la red desde cero insertando la contraseña manualmente.
