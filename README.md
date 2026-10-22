@@ -72,7 +72,7 @@ Si al intentar conectarte te sale un error aqui te las paso
 
 ### Pasos en macOS
 
-• Haz clic en el menú Manzana (🍎) en la esquina superior izquierda y abre Ajustes del Sistema.
+• Haz clic en el menú Manzana 🍎 () en la esquina superior izquierda y abre Ajustes del Sistema.
 
 • En la barra lateral, selecciona General y luego haz clic en Compartir.
 
